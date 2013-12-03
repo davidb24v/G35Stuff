@@ -43,7 +43,7 @@ void setup() {
 // Colour table for rainbow
 const int COLOURS[] = {COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_BLUE,
                        COLOR_INDIGO, COLOR_VIOLET};
-const int NCOLOURS = sizeof(COLOURS);
+const int NCOLOURS = sizeof(COLOURS)/sizeof(int);
 
 // Counter - to insert a long pause, occasionally
 int pause = 0;
