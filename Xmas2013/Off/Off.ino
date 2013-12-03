@@ -1,10 +1,3 @@
-/*
-  G35: An Arduino library for GE Color Effects G-35 holiday lights.
-  Copyright © 2011 The G35 Authors. Use, modification, and distribution are
-  subject to the BSD license as described in the accompanying LICENSE file.
-
-  See README for complete attributions.
-*/
 
 #include <G35String.h>
 
