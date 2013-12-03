@@ -5,7 +5,7 @@ Various arduino sketches related to GE G35 Color Effects Xmas lights
 
 Some sketches (like the Ticon derived ones) are hacked from examples in
 Sowbug's G35Arduino repository. The following copyright applies to
-those and to the G35Arduino in general:
+those and to the G35Arduino library in general:
 
 Copyright 2011 The G35 Authors. All rights reserved.
 
