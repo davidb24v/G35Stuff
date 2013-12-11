@@ -27,13 +27,13 @@ const int COLOURS[] = {COLOR_RED, COLOR_GREEN};
 const int NCOLOURS = sizeof(COLOURS)/sizeof(int);
 
 // Storage for bitmap of lights 7x8 bits = 56 (we need 50)
-#ifdef TWO_STRINGS
-byte bulbs1[7];
-byte bulbs2[7];
-#else
-byte bulbs[7];
-#endif
 const int bulbBytes = 7;
+#ifdef TWO_STRINGS
+byte bulbs1[bulbBytes];
+byte bulbs2[bulbBytes];
+#else
+byte bulbs[bulbBytes];
+#endif
 
 // Macros to work out which bit of which byte to set..
 #define GETBIT int bit = bulb % 8
@@ -56,10 +56,22 @@ void setBulb(byte bulbs[], const int bulb) {
   bulbs[ind] |= 1 << bit;
 }
 
-bool bulbUnset(byte bulbs[], const int bulb) {
+void unSetBulb(byte bulbs[], const int bulb) {
+  GETBIT;
+  GETIND;
+  bulbs[ind] &= ~(1 << bit);
+}
+
+bool bulbIsUnset(byte bulbs[], const int bulb) {
   GETBIT;
   GETIND;
   return (bulbs[ind] & (1 << bit)) == 0;
+}
+
+bool bulbIsSet(byte bulbs[], const int bulb) {
+  GETBIT;
+  GETIND;
+  return (bulbs[ind] & (1 << bit)) > 0;
 }
 
 int countBits(byte bulbs[]) {
@@ -96,13 +108,13 @@ int colour = 0;
 
 void loop() {
   #ifdef TWO_STRINGS
-    // Set first colour
+    // Randomly switch on to current colour
     while ( countBits(bulbs1) < LIGHT_COUNT ||
             countBits(bulbs2) < LIGHT_COUNT ) {
 
       // Set the bulb on first string
       int bulb = random(LIGHT_COUNT);
-      if ( bulbUnset(bulbs1, bulb) ) {
+      if ( bulbIsUnset(bulbs1, bulb) ) {
         setBulb(bulbs1, bulb);
         lights1.set_color(bulb, G35::MAX_INTENSITY, COLOURS[colour]);
         delay(BETWEEN_BULBS);
@@ -110,7 +122,7 @@ void loop() {
 
       // Set the bulb on second string
       bulb = random(LIGHT_COUNT);
-      if ( bulbUnset(bulbs2, bulb) ) {
+      if ( bulbIsUnset(bulbs2, bulb) ) {
         setBulb(bulbs2, bulb);
         lights2.set_color(bulb, G35::MAX_INTENSITY, COLOURS[colour]);
         delay(BETWEEN_BULBS);
@@ -118,26 +130,48 @@ void loop() {
     }
     delay(AFTER_STRING);
     
-    // Clear the strings
-    lights1.fill_color(0, LIGHT_COUNT, G35::MAX_INTENSITY, COLOR_BLACK);
-    lights2.fill_color(0, LIGHT_COUNT, G35::MAX_INTENSITY, COLOR_BLACK);
-    clearBulbs(bulbs1);
-    clearBulbs(bulbs2);
+    // Randomly switch off
+    while ( countBits(bulbs1) > 0 ||
+            countBits(bulbs2) > 0 ) {
+
+      // Set the bulb on first string
+      int bulb = random(LIGHT_COUNT);
+      if ( bulbIsSet(bulbs1, bulb) ) {
+        unSetBulb(bulbs1, bulb);
+        lights1.set_color(bulb, G35::MAX_INTENSITY, COLOR_BLACK);
+        delay(BETWEEN_BULBS);
+      }
+
+      // Set the bulb on second string
+      bulb = random(LIGHT_COUNT);
+      if ( bulbIsSet(bulbs2, bulb) ) {
+        unSetBulb(bulbs2, bulb);
+        lights2.set_color(bulb, G35::MAX_INTENSITY, COLOR_BLACK);
+        delay(BETWEEN_BULBS);
+      }
+    }
   #else
-    // Set first colour
+    // Randomly switch on to current colour
     while ( countBits(bulbs) < LIGHT_COUNT ) {
       int bulb = random(LIGHT_COUNT);
-      if ( bulbUnset(bulbs, bulb) ) {
+      if ( bulbIsUnset(bulbs, bulb) ) {
         setBulb(bulbs, bulb);
         lights.set_color(bulb, G35::MAX_INTENSITY, COLOURS[colour]);
         delay(BETWEEN_BULBS);
       }
     }
     delay(AFTER_STRING);
+
+    // Randomly switch off again...
+    while ( countBits(bulbs) > 0 ) {
+      int bulb = random(LIGHT_COUNT);
+      if ( bulbIsSet(bulbs, bulb) ) {
+        unSetBulb(bulbs, bulb);
+        lights.set_color(bulb, G35::MAX_INTENSITY, COLOR_BLACK);
+        delay(BETWEEN_BULBS);
+      }
+    }
     
-    // Clear the string
-    lights.fill_color(0, LIGHT_COUNT, G35::MAX_INTENSITY, COLOR_BLACK);
-    clearBulbs(bulbs);
   #endif
 
   colour++;
