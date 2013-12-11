@@ -123,7 +123,6 @@ void loop() {
     lights2.fill_color(0, LIGHT_COUNT, G35::MAX_INTENSITY, COLOR_BLACK);
     clearBulbs(bulbs1);
     clearBulbs(bulbs2);
-    colour++;
   #else
     // Set first colour
     while ( countBits(bulbs) < LIGHT_COUNT ) {
@@ -139,7 +138,8 @@ void loop() {
     // Clear the string
     lights.fill_color(0, LIGHT_COUNT, G35::MAX_INTENSITY, COLOR_BLACK);
     clearBulbs(bulbs);
-    colour++;
-    colour = colour % NCOLOURS;
   #endif
+
+  colour++;
+  colour = colour % NCOLOURS;
 }
