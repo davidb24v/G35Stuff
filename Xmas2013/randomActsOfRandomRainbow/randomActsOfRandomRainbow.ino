@@ -42,7 +42,7 @@ byte bulbs[bulbBytes];
 
 // Delays after each bulb change and after each string is done
 #define BETWEEN_BULBS 50
-#define AFTER_STRING 1000
+#define AFTER_STRING 3000
 
 // Clear bitmap
 void clearBulbs(byte bulbs[]) {
@@ -104,10 +104,10 @@ void setup() {
   randomSeed(analogRead(0));
 }
 
-// Which colour to display
-int colour = 0;
-
 void loop() {
+  // Which colour to display
+  int colour;
+
   #ifdef TWO_STRINGS
     // Randomly switch on to current colour
     while ( countBits(bulbs1) < LIGHT_COUNT ||
@@ -115,6 +115,7 @@ void loop() {
 
       // Set the bulb on first string
       int bulb = random(LIGHT_COUNT);
+      colour = random(NCOLOURS);
       if ( bulbIsUnset(bulbs1, bulb) ) {
         setBulb(bulbs1, bulb);
         lights1.set_color(bulb, G35::MAX_INTENSITY, COLOURS[colour]);
@@ -123,6 +124,7 @@ void loop() {
 
       // Set the bulb on second string
       bulb = random(LIGHT_COUNT);
+      colour = random(NCOLOURS);
       if ( bulbIsUnset(bulbs2, bulb) ) {
         setBulb(bulbs2, bulb);
         lights2.set_color(bulb, G35::MAX_INTENSITY, COLOURS[colour]);
@@ -155,6 +157,7 @@ void loop() {
     // Randomly switch on to current colour
     while ( countBits(bulbs) < LIGHT_COUNT ) {
       int bulb = random(LIGHT_COUNT);
+      colour = random(NCOLOURS);
       if ( bulbIsUnset(bulbs, bulb) ) {
         setBulb(bulbs, bulb);
         lights.set_color(bulb, G35::MAX_INTENSITY, COLOURS[colour]);
@@ -175,6 +178,4 @@ void loop() {
     
   #endif
 
-  colour++;
-  colour = colour % NCOLOURS;
 }
