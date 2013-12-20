@@ -53,24 +53,19 @@ void loop() {
     wait = 100 + random(MAX_DELAY);
   }
   
-  #ifdef TWO_STRINGS
-    // Get first colour
-    byte first = counter % NCOLOURS;
-    // Loop over groups
-    for (int group=0; group < NUM_GROUPS; group++) {
-      byte colour = (group + first) % NCOLOURS;
+  // Get first colour
+  byte first = counter % NCOLOURS;
+
+  // Loop over groups
+  for (int group=0; group < NUM_GROUPS; group++) {
+    byte colour = (group + first) % NCOLOURS;
+    #ifdef TWO_STRINGS
       lights1.fill_color(group*NUM_BULBS, NUM_BULBS, G35::MAX_INTENSITY, COLOURS[colour]);
       lights2.fill_color(group*NUM_BULBS, NUM_BULBS, G35::MAX_INTENSITY, COLOURS[colour]);
-    }
-  #else
-    // Get first colour
-    byte first = counter % NCOLOURS;
-    // Loop over groups
-    for (int group=0; group < NUM_GROUPS; group++) {
-      byte colour = (group + first) % NCOLOURS;
+    #else
       lights.fill_color(group*NUM_BULBS, NUM_BULBS, G35::MAX_INTENSITY, COLOURS[colour]);
+    #endif
     }
-  #endif
 
   // Pause
   delay(wait);
