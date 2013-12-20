@@ -18,7 +18,7 @@
 const int BETWEEN_STEPS=50;
 
 // Delay before switching off "last" bulbs
-const int BETWEEN_BULBS=1;
+const int BETWEEN_BULBS=2;
 
 void setup() {
 #ifdef TWO_STRINGS
