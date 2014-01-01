@@ -37,7 +37,7 @@
 
 #ifdef ARDUINO_HW
 // A regular Arduino. First string on pin 13, second on 12.
-G35String lights_1(9, 50, 50, 0, false);
+G35String lights_1(9, 49, 49, 0, false);
 //G35String lights_2(12, 41);
 
 #ifdef USE_REMOTE
