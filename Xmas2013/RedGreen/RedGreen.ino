@@ -4,7 +4,7 @@
 // Total # of lights on string (usually 50, 48, or 36). Maximum is 63, because
 // the protocol uses 6-bit addressing and bulb #63 is reserved for broadcast
 // messages.
-#define LIGHT_COUNT 49
+#define LIGHT_COUNT 34
 
 // Arduino pin number for lights (physical pin 15)
 #define G35_PIN 9

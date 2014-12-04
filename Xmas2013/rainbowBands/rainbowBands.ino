@@ -11,10 +11,10 @@
   G35String lights1(G35_PIN1, LIGHT_COUNT);
   G35String lights2(G35_PIN2, LIGHT_COUNT);
 #else
-  #define LIGHT_COUNT 49
+  #define LIGHT_COUNT 34
   #define G35_PIN 9
-  #define NUM_BULBS 7
-  #define NUM_GROUPS 7
+  #define NUM_BULBS 17
+  #define NUM_GROUPS 2
   G35String lights(G35_PIN, LIGHT_COUNT);
 #endif
 

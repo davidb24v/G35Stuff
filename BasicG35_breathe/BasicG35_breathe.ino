@@ -11,7 +11,7 @@
 // Total # of lights on string (usually 50, 48, or 36). Maximum is 63, because
 // the protocol uses 6-bit addressing and bulb #63 is reserved for broadcast
 // messages.
-#define LIGHT_COUNT 50
+#define LIGHT_COUNT 34
 
 // Arduino pin number for lights (physical pin 15)
 #define G35_PIN 9
@@ -75,6 +75,18 @@ void fill_em_up() {
   }
 }
 
+void uniformBreathe(uint8_t* breatheTable, uint8_t breatheTableSize, uint16_t updatePeriod)
+{
+  int i;
+  uint8_t breatheIndex = 0;
+  
+  for (breatheIndex = 0; breatheIndex < breatheTableSize; breatheIndex++) {
+    i = 204*breatheTable[breatheIndex]/256;
+    lights.broadcast_intensity(i);
+    delay(updatePeriod);
+  }
+}
+
 void setup() {
   Serial.begin (115200);
   Serial.println(freeRam());
@@ -95,16 +107,5 @@ void loop() {
   }
 }
 
-void uniformBreathe(uint8_t* breatheTable, uint8_t breatheTableSize, uint16_t updatePeriod)
-{
-  int i;
-  uint8_t breatheIndex = 0;
-  
-  for (breatheIndex = 0; breatheIndex < breatheTableSize; breatheIndex++) {
-    i = 204*breatheTable[breatheIndex]/256;
-    lights.broadcast_intensity(i);
-    delay(updatePeriod);
-  }
-}
 
 

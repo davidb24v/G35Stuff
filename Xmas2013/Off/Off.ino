@@ -9,7 +9,7 @@
 #ifdef TWO_STRINGS
   #define LIGHT_COUNT 50
 #else
-  #define LIGHT_COUNT 49
+  #define LIGHT_COUNT 34
 #endif
 
 // Arduino pin number for lights (physical pin 15)
